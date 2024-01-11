@@ -1,0 +1,39 @@
+{
+  "name": "@nickcuper/node-red-contrib-aws-cloud",
+  "version": "1.0.0",
+  "description": "AWS nodes for NodeRED",
+  "homepage": "https://github.com/nickcuper/node-red-contrib-aws-cloud",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickcuper/node-red-contrib-aws-cloud.git"
+  },
+  "keywords": [
+    "node-red",
+    "aws",
+    "aws-cloud",
+    "s3",
+    "Amazon Simple Storage Service",
+    "aws-s3",
+    "putObject"
+  ],
+  "author": "Dmytro Petrenko <petrenko.dmytro.work@gmail.com>",
+  "maintainers": [
+    "Dmytro Petrenko <petrenko.dmytro.work@gmail.com>"
+  ],
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.485.0"
+  },
+  "node-red": {
+    "nodes": {
+      "aws-s3": "nodes/aws/s3-write.js",
+      "aws-config": "nodes/aws/config.js"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/nickcuper/node-red-contrib-aws-cloud/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" "
+  }
+}

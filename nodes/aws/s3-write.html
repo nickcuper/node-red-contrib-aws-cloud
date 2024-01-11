@@ -1,0 +1,150 @@
+<script type="text/javascript">
+    RED.nodes.registerType('s3-write', {
+        category: 'aws',
+        color: '#8cfd6a',
+        icon: 's3.svg',
+        defaults: {
+            aws: {type: 'aws-config', required:true},
+            name: {value: '', required:true},
+            bucket: {value: '', required:true},
+            filename: {value: '', required:true},
+            contentType: {value: 'text/html', required:true},
+            property: {value: 'payload', required:true},
+            retries: {value: 5, required:true},
+            tags: {value: [{key: '', value: ''}]},
+        },
+        inputs:1,
+        outputs:2,
+        outputLabels: ['success', 'error'],
+        label: function() {
+            return this.name || 'aws-s3';
+        },
+        oneditprepare: function () {
+            const tagsContainer = $('#node-input-tags-container');
+
+            tagsContainer.editableList({
+                addItem: (container, i, item) => {
+                    const tag = item;
+                    const template = document.getElementById('tag');
+
+                    template.content.querySelector('.node-input-tag-key').setAttribute('value', tag.key ?? '');
+                    template.content.querySelector('.node-input-tag-value').setAttribute('value', tag.value ?? '');
+
+                    const hydratedTemplate = template.innerHTML.replaceAll('IDX', i);
+                    container.append(document.createRange().createContextualFragment(hydratedTemplate));
+                },
+                removable: true,
+                sortable: true
+            });
+
+            if (!this.tags) {
+                this.tags = [{key: '', value: ''}];
+            }
+
+            (this.tags || []).filter((el) => el.key && el.value).forEach((item) => {
+                tagsContainer.editableList('addItem', item);
+            })
+        },
+        oneditsave: function() {
+            const node = this;
+
+            node.tags = [];
+
+            $('#node-input-tags-container').editableList('items').each(function () {
+                const value = $(this).find('.node-input-tag-value').val();
+                const key = $(this).find('.node-input-tag-key').val();
+
+                node.tags.push({ key, value });
+            });
+
+            node.tags = node.tags.filter(el => el.value && el.key);
+        },
+        oneditresize: function (size) {
+            const rows = $("#dialog-form>div:not(.node-input-tags-container-row)");
+            let height = size.height;
+            for (let i = 0; i < rows.length; i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+
+            const editorRow = $("#dialog-form>div.node-input-tags-container-row");
+            height -= (parseInt(editorRow.css("marginTop")) + parseInt(editorRow.css("marginBottom")));
+            height += 16;
+
+            $("#node-input-tags-container").editableList('height', height);
+        }
+    });
+</script>
+
+<template id="tag">
+    <div id="tag-IDX">
+        <div class="form-row">
+            <label for="node-input-key-IDX">
+                <i class="fa fa-tag"></i>
+                <span>Key</span>
+            </label>
+            <input type="text" class="node-input-tag-key red-ui-typedInput" id="node-input-key-IDX"
+                   autocomplete="off" value="" placeholder="">
+        </div>
+        <div class="form-row">
+            <label for="node-input-value-IDX">
+                <i class="fa fa-filter"></i>
+                <span>Value</span>
+            </label>
+            <input type="text" class="node-input-tag-value red-ui-typedInput" id="node-input-value-IDX"
+                   autocomplete="off" value="" placeholder="">
+        </div>
+    </div>
+</template>
+
+<script type="text/html" data-template-name="s3-write">
+    <style>
+        #node-input-tags-container {
+            min-height: 150px;
+            min-width: 450px;
+        }
+    </style>
+
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-globe"></i> AWS Config</label>
+        <input type="text" id="node-input-aws">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-tag"></i> Bucket</label>
+        <input type="text" id="node-input-bucket" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-filename"><i class="fa fa-sign-out"></i> Filename (key)</label>
+        <input type="text" id="node-input-filename" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-contentType"><i class="fa fa-sign-out"></i> Content Type</label>
+        <input type="text" id="node-input-contentType" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-property"><i class="fa fa-ellipsis-h"></i> <span>Property</span></label>
+        <div class="red-ui-typedInput-container">
+            <button type="button" class="red-ui-typedInput-type-select disabled" tabindex="-1" title="msg.">
+                <span class="red-ui-typedInput-type-label">msg.</span>
+            </button>
+            <input type="text" id="node-input-property" class="red-ui-typedInput-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-retries"><i class="fa fa-ellipsis-h"></i> Max Retries</label>
+        <input id="node-input-retries" class="red-ui-typedInput-input" type="number" min="1">
+    </div>
+
+    <div class="form-row node-input-tags-container-row">
+        <ol id="node-input-tags-container"></ol>
+    </div>
+</script>
