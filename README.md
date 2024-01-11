@@ -13,12 +13,13 @@ yarn add @nickcuper/node-red-contrib-aws-cloud
 ### Nodes
 - config node
 - s3-write
+- s3-read
 - sqs-read
 
 ### S3 Node
 
-![alt text](resources/s3_node.png)
+![s3 read](resources/s3_node.png)
 
 ### SQS Node
 
-![alt text](resources/sqs_node.png)
+![sqs read](resources/sqs_node.png)

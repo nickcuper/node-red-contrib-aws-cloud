@@ -1,6 +1,6 @@
 {
   "name": "@nickcuper/node-red-contrib-aws-cloud",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "AWS nodes for NodeRED",
   "homepage": "https://github.com/nickcuper/node-red-contrib-aws-cloud",
   "license": "Apache-2.0",
@@ -32,9 +32,10 @@
   },
   "node-red": {
     "nodes": {
-      "aws-s3": "nodes/aws/s3-write.js",
-      "aws-sqs": "nodes/aws/sqs-read.js",
-      "aws-config": "nodes/aws/config.js"
+      "aws-cloud-s3-write": "nodes/aws/s3-write.js",
+      "aws-cloud-s3-read": "nodes/aws/s3-read.js",
+      "aws-cloud-sqs": "nodes/aws/sqs-read.js",
+      "aws-cloud-config": "nodes/aws/config.js"
     }
   },
   "bugs": {

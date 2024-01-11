@@ -1,0 +1,97 @@
+<script type="text/javascript">
+    const transformType = {
+        toString: 0,
+        toByteArray: 1,
+        toWebStream: 2,
+    };
+
+    RED.nodes.registerType('s3-read', {
+        category: 'aws-cloud',
+        color: '#ececec',
+        icon: 's3.svg',
+        defaults: {
+            aws: {type: 'aws-config', required:true},
+            name: {value: '', required:true},
+            bucket: {value: '', required:true},
+            withTags: {value: false, required:true},
+            transformTo: {value: 0, required:true},
+            filename: {value: '', required:true},
+            property: {value: 'payload', required:true},
+            retries: {value: 5, required:true},
+        },
+        inputs:1,
+        outputs:2,
+        outputLabels: ['success', 'error'],
+        label: function() {
+            return this.name || 'aws-s3';
+        },
+        oneditprepare: function () {
+            const node = this;
+
+            document.querySelectorAll('#node-input-transformTo option')?.forEach(el => {
+                if (el.value === node.transformTo) {
+                    el.selected = true;
+                }
+            });
+
+            document.querySelector('#node-input-withTags').checked = node.withTags
+        },
+        oneditsave: function() {
+            const node = this;
+
+            node.transformTo = +document.querySelector('#node-input-transformTo option:checked').value;
+            node.withTags = document.querySelector('#node-input-withTags').checked;
+        },
+        oneditresize: function (size) {
+
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="s3-read">
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-globe"></i> AWS Config</label>
+        <input type="text" id="node-input-aws">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-bucket"><i class="fa fa-tag"></i> Bucket</label>
+        <input type="text" id="node-input-bucket" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-filename"><i class="fa fa-tag"></i> Path</label>
+        <input type="text" id="node-input-filename" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-withTags"><i class="fa fa-th-large"></i><span> With tags</span></label>
+        <input type="checkbox" id="node-input-withTags" class="checkbox-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-property"><i class="fa fa-sign-out"></i> Property</label>
+        <input type="text" id="node-input-property" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-transformTo">
+            <i class="fa fa-sign-out"></i>
+            <span>Transform body to</span>
+        </label>
+        <select id="node-input-transformTo">
+            <option value="0">String</option>
+            <option value="1">Byte Array</option>
+            <option value="2">Web Stream</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="s3-read">
+    <p>Get file from s3</p>
+</script>

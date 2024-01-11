@@ -70,5 +70,5 @@ module.exports = function(RED) {
         });
     }
 
-    RED.nodes.registerType('s3-write', S3PutObject);
+    RED.nodes.registerType('aws-cloud-s3-write', S3PutObject);
 }

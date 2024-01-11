@@ -94,5 +94,5 @@ module.exports = function(RED) {
         });
     }
 
-    RED.nodes.registerType('sqs-read', SQSReadMessage);
+    RED.nodes.registerType('aws-cloud-sqs-read', SQSReadMessage);
 }
