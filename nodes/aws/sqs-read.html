@@ -1,0 +1,89 @@
+<script type="text/javascript">
+    RED.nodes.registerType('sqs-read', {
+        category: 'aws-cloud',
+        color: '#ffffff',
+        icon: 'sqs.svg',
+        defaults: {
+            aws: {type: 'aws-config', required:true},
+            name: {value: '', required:true},
+            sqsUrl: {value: '', required:true},
+            visibilityTimeout: {value: 10, required:true},
+            waitTimeSeconds: {value: 10, required:true},
+            requestAttemptId: {value: '', required:false},
+            deleteAfterRead: {value: true, required:true},
+            sendBatch: {value: false, required:true},
+            maxMessage: {value: 1, required:true},
+            retries: {value: 5, required:true},
+        },
+        inputs:1,
+        outputs:2,
+        outputLabels: ['success', 'error'],
+        label: function() {
+            return this.name || 'aws-sqs';
+        },
+        oneditprepare: function () {
+            document.querySelector('#node-input-returnBatch').checked = this.returnArray;
+        },
+        oneditsave: function() {
+            const node = this;
+
+            node.returnArray = document.querySelector('#node-input-returnBatch').checked
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="sqs-read">
+    <div class="form-row">
+        <label for="node-input-aws"><i class="fa fa-globe"></i> AWS Config</label>
+        <input type="text" id="node-input-aws">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-sqsUrl"><i class="fa fa-tag"></i> SQS url</label>
+        <input type="text" id="node-input-sqsUrl" class="red-ui-typedInput-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-maxMessage"><i class="fa fa-ellipsis-h"></i> Max message</label>
+        <input id="node-input-maxMessage" class="red-ui-typedInput-input" type="number" min="1" max="10">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-visibilityTimeout"><i class="fa fa-ellipsis-h"></i> Visibility timeout</label>
+        <input id="node-input-visibilityTimeout" class="red-ui-typedInput-input" type="number" min="1" max="10">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-waitTimeSeconds"><i class="fa fa-ellipsis-h"></i> Wait Time Seconds</label>
+        <input id="node-input-waitTimeSeconds" class="red-ui-typedInput-input" type="number" min="1" max="10">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-requestAttemptId"><i class="fa fa-ellipsis-h"></i> Request Attempt Id</label>
+        <input id="node-input-requestAttemptId" class="red-ui-typedInput-input" type="text">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-deleteAfterRead"><i class="fa fa-th-large"></i><span>Delete message</span></label>
+        <input type="checkbox" id="node-input-deleteAfterRead" class="checkbox-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-returnBatch"><i class="fa fa-th-large"></i><span>Return Array</span></label>
+        <input type="checkbox" id="node-input-returnBatch" class="checkbox-input">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-retries"><i class="fa fa-ellipsis-h"></i> Max Retries</label>
+        <input id="node-input-retries" class="red-ui-typedInput-input" type="number" min="1">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="sqs-read">
+    Read sqs message
+</script>

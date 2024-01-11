@@ -58,10 +58,12 @@ module.exports = function(RED) {
             });
 
             client.send(s3Object).then((response) => {
-                send([response, null]);
+                send([{
+                    ...msg,
+                    's3Response': response,
+                }, null]);
                 done();
             }).catch((error) => {
-                console.log('s3-write-error', error);
                 send([null, error]);
                 done();
             });
