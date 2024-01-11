@@ -11,7 +11,6 @@
             waitTimeSeconds: {value: 10, required:true},
             requestAttemptId: {value: '', required:false},
             deleteAfterRead: {value: true, required:true},
-            sendBatch: {value: false, required:true},
             maxMessage: {value: 1, required:true},
             retries: {value: 5, required:true},
         },
@@ -69,13 +68,8 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-deleteAfterRead"><i class="fa fa-th-large"></i><span>Delete message</span></label>
+        <label for="node-input-deleteAfterRead"><i class="fa fa-th-large"></i><span> Delete message</span></label>
         <input type="checkbox" id="node-input-deleteAfterRead" class="checkbox-input">
-    </div>
-
-    <div class="form-row">
-        <label for="node-input-returnBatch"><i class="fa fa-th-large"></i><span>Return Array</span></label>
-        <input type="checkbox" id="node-input-returnBatch" class="checkbox-input">
     </div>
 
     <div class="form-row">

@@ -23,7 +23,6 @@ module.exports = function(RED) {
 
         this.name = props.name;
         this.deleteAfterRead = props.deleteAfterRead;
-        this.sendBatch = props.sendBatch;
         this.retries = props.retries || 5;
 
         this.sqsUrl = props.sqsUrl;
@@ -61,26 +60,14 @@ module.exports = function(RED) {
             try {
                 const messages = await client.send(messageRequest);
                 if (messages.Messages) {
-                    if (node.deleteAfterRead) {
-                        messageListToDelete = messages.Messages.map(messages => ({
-                            Id: messages.MessageId,
-                            ReceiptHandle: messages.ReceiptHandle
-                        }));
-                    }
-
-                    if (node.sendBatch) {
-                        send([{
-                            ...msg,
-                            payload: messages.Messages
-                        }, null]);
-                    } else {
-                        messages.Messages?.map((message) => {
-                            send([{
-                                ...msg,
-                                payload: message
-                            }, null]);
+                    messages.Messages?.forEach((message) => {
+                        messageListToDelete.push({
+                            Id: message.MessageId,
+                            ReceiptHandle: message.ReceiptHandle
                         });
-                    }
+
+                        send([{ ...msg, payload: message }, null]);
+                    });
                 }
             } catch (error) {
                 send([null, error]);
