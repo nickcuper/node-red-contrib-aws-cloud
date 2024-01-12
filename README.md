@@ -1,5 +1,7 @@
 # Node RED AWS cloud nodes
 
+[![NPM](https://nodei.co/npm/@nickcuper/node-red-contrib-aws-cloud.png?mini=true)](https://nodei.co/npm/@nickcuper/node-red-contrib-aws-cloud/)
+
 ### Installation
 
 ```sh
