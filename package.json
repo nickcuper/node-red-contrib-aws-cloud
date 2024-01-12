@@ -1,6 +1,6 @@
 {
   "name": "@nickcuper/node-red-contrib-aws-cloud",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "AWS nodes for NodeRED",
   "homepage": "https://github.com/nickcuper/node-red-contrib-aws-cloud",
   "license": "Apache-2.0",
@@ -16,8 +16,7 @@
     "sqs",
     "Amazon Simple Storage Service",
     "aws-s3",
-    "aws-sqs",
-    "putObject"
+    "aws-sqs"
   ],
   "author": "Dmytro Petrenko <petrenko.dmytro.work@gmail.com>",
   "maintainers": [

@@ -3,10 +3,10 @@ module.exports = function(RED) {
     const { SQSClient, ReceiveMessageCommand, DeleteMessageBatchCommand } = require("@aws-sdk/client-sqs");
     const mustache = require('mustache');
 
-    const deleteMessage = async (client, sqsUrl, messages) => {
+    const deleteMessage = async (client, sqsUrl, entries) => {
         const command = new DeleteMessageBatchCommand({
             QueueUrl: sqsUrl,
-            Entries: messages
+            Entries: entries
         });
 
         try {
@@ -43,11 +43,10 @@ module.exports = function(RED) {
         });
 
         node.on('input', async function(msg, send, done) {
-
-            let messageListToDelete = [];
+            const messageListToDelete = [];
             const sqsUrl = mustache.render(node.sqsUrl, msg);
 
-            const messageRequest = new ReceiveMessageCommand({
+            const messageCommand = new ReceiveMessageCommand({
                 QueueUrl: sqsUrl,
                 AttributeNames: [],
                 MessageAttributeNames: [],
@@ -58,7 +57,7 @@ module.exports = function(RED) {
             });
 
             try {
-                const messages = await client.send(messageRequest);
+                const messages = await client.send(messageCommand);
                 if (messages.Messages) {
                     messages.Messages?.forEach((message) => {
                         messageListToDelete.push({

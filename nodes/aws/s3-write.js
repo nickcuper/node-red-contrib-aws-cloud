@@ -49,7 +49,7 @@ module.exports = function(RED) {
             const bucket = mustache.render(node.bucket, msg);
             const contentType = mustache.render(node.contentType, msg);
 
-            const s3Object = new PutObjectCommand({
+            const putObjectCommand = new PutObjectCommand({
                 Body: body,
                 Key: key,
                 Bucket: bucket,
@@ -57,7 +57,7 @@ module.exports = function(RED) {
                 Tagging: tagBuilder.toString()
             });
 
-            client.send(s3Object).then((response) => {
+            client.send(putObjectCommand).then((response) => {
                 send([{
                     ...msg,
                     's3Response': response,

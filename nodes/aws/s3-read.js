@@ -55,14 +55,15 @@ module.exports = function(RED) {
             try {
                 const response = await client.send(s3Object);
                 const stringBody = await response.Body.transformToString();
-                if (response.ContentType === 'application/json') {
-                    RED.util.setMessageProperty(msg, node.property, JSON.parse(stringBody));
-                } else {
-                    RED.util.setMessageProperty(msg, node.property, stringBody);
-                }
+
+                const isJson = response.ContentType === 'application/json';
+                const fileContent = isJson ? JSON.parse(stringBody): stringBody;
+
+                RED.util.setMessageProperty(msg, node.property, fileContent);
 
                 if (node.withTags) {
                     const tags = await getTags(client, key, bucket);
+
                     RED.util.setMessageProperty(msg, 'tags', tags);
                 }
 
