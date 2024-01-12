@@ -5,12 +5,12 @@
         toWebStream: 2,
     };
 
-    RED.nodes.registerType('s3-read', {
+    RED.nodes.registerType('aws-cloud-s3-read', {
         category: 'aws-cloud',
         color: '#ececec',
         icon: 's3.svg',
         defaults: {
-            aws: {type: 'aws-config', required:true},
+            aws: {type: 'aws-cloud-config', required:true},
             name: {value: '', required:true},
             bucket: {value: '', required:true},
             withTags: {value: false, required:true},
@@ -48,7 +48,7 @@
     });
 </script>
 
-<script type="text/html" data-template-name="s3-read">
+<script type="text/html" data-template-name="aws-cloud-s3-read">
     <div class="form-row">
         <label for="node-input-aws"><i class="fa fa-globe"></i> AWS Config</label>
         <input type="text" id="node-input-aws">
@@ -92,6 +92,6 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="s3-read">
+<script type="text/html" data-help-name="aws-cloud-s3-read">
     <p>Get file from s3</p>
 </script>

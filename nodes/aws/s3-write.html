@@ -1,10 +1,10 @@
 <script type="text/javascript">
-    RED.nodes.registerType('s3-write', {
+    RED.nodes.registerType('aws-cloud-s3-write', {
         category: 'aws-cloud',
         color: '#ececec',
         icon: 's3.svg',
         defaults: {
-            aws: {type: 'aws-config', required:true},
+            aws: {type: 'aws-cloud-config', required:true},
             name: {value: '', required:true},
             bucket: {value: '', required:true},
             filename: {value: '', required:true},
@@ -96,7 +96,7 @@
     </div>
 </template>
 
-<script type="text/html" data-template-name="s3-write">
+<script type="text/html" data-template-name="aws-cloud-s3-write">
     <style>
         #node-input-tags-container {
             min-height: 150px;

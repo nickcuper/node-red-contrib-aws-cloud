@@ -16,5 +16,5 @@ module.exports = function(RED) {
         }
     };
 
-    RED.nodes.registerType('aws-config', AWSConfigNode, props);
+    RED.nodes.registerType('aws-cloud-config', AWSConfigNode, props);
 }

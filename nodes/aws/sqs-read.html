@@ -1,10 +1,10 @@
 <script type="text/javascript">
-    RED.nodes.registerType('sqs-read', {
+    RED.nodes.registerType('aws-cloud-sqs-read', {
         category: 'aws-cloud',
         color: '#ececec',
         icon: 'sqs.svg',
         defaults: {
-            aws: {type: 'aws-config', required:true},
+            aws: {type: 'aws-cloud-config', required:true},
             name: {value: '', required:true},
             sqsUrl: {value: '', required:true},
             visibilityTimeout: {value: 10, required:true},
@@ -31,7 +31,7 @@
     });
 </script>
 
-<script type="text/html" data-template-name="sqs-read">
+<script type="text/html" data-template-name="aws-cloud-sqs-read">
     <div class="form-row">
         <label for="node-input-aws"><i class="fa fa-globe"></i> AWS Config</label>
         <input type="text" id="node-input-aws">
@@ -78,6 +78,6 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="sqs-read">
+<script type="text/html" data-help-name="aws-cloud-sqs-read">
     Read sqs message
 </script>
