@@ -72,7 +72,7 @@ module.exports = function(RED) {
                 send([null, error]);
             }
 
-            if (messageListToDelete.length) {
+            if (node.deleteAfterRead && messageListToDelete.length) {
                 await deleteMessage(client, sqsUrl, messageListToDelete);
             }
 
