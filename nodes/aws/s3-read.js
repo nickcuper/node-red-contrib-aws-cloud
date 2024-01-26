@@ -69,7 +69,7 @@ module.exports = function(RED) {
 
                 send([msg, null]);
             } catch (error) {
-                send([null, error]);
+                send([null, {error, details: { Key: key,  Bucket: bucket, }}]);
             }
 
             done();
